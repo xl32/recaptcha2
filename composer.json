@@ -1,8 +1,9 @@
 {
-    "name": "breyndotechse/recaptcha2",
+    "name": "codeit/recaptcha2",
     "description": "reCAPTCHA 2.0 (\"NoCaptcha\") Module for Zend Framework 2 and Zend Framework 3",
     "license": "BSD-3-Clause",
     "keywords": [
+        "laminas",
         "zendframework",
         "zend",
         "framework",
@@ -12,22 +13,22 @@
         "recaptcha",
         "nocaptcha"
     ],
-    "homepage": "https://github.com/breyndotechse/recaptcha2",
+    "homepage": "https://github.com/xl32/recaptcha2",
     "autoload": {
         "psr-4": {
             "ReCaptcha2\\": "src/"
         }
     },
     "require": {
-        "php": "^5.5 || ^7.0",
-        "zendframework/zend-captcha": "^2.2.3",
-        "zendframework/zend-http": "^2.2.3",
-        "zendframework/zend-form": "^2.2.3",
-        "zendframework/zend-view": "^2.2.3",
-        "zendframework/zend-i18n": "^2.2.3"
+        "php": "^5.5 || ^7.0 || ^8.0",
+        "laminas/laminas-captcha": "^2.5.0",
+        "laminas/laminas-http": "^2.15.0",
+        "laminas/laminas-form": "^3.4.0",
+        "laminas/laminas-view": "^2.36.0",
+        "laminas/laminas-i18n": "^2.19.0"
     },
     "require-dev": {
-        "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
+        "laminas/laminas-servicemanager": "^3.18.0",
         "phpunit/phpunit": "^4.5",
         "squizlabs/php_codesniffer": "^2.3.1"
     },
