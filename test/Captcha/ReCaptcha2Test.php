@@ -1,15 +1,17 @@
 <?php
-namespace ZendTest\ReCaptcha2\Captcha;
 
+namespace LaminasTest\ReCaptcha2\Captcha;
+
+use PHPUnit\Framework\TestCase;
 use ReCaptcha2\Captcha\NoCaptchaService;
 use ReCaptcha2\Captcha\ReCaptcha2;
 use ReCaptcha2\Captcha\Result;
-use Zend\Captcha\Exception;
-use ZendTest\ReCaptcha2\Captcha\TestAsset\TestNoCaptchaService;
+use Laminas\Captcha\Exception;
+use LaminasTest\ReCaptcha2\Captcha\TestAsset\TestNoCaptchaService;
 
-class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
+class ReCaptcha2Test extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->reCaptcha2 = new ReCaptcha2();
     }
@@ -19,7 +21,7 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
         $options = [
             'siteKey'   => 'test:siteKey',
             'secretKey' => 'test:secretKey',
-            'service' => new TestNoCaptchaService,
+            'service' => new TestNoCaptchaService(),
         ];
         $recaptcha2 = new ReCaptcha2($options);
 
@@ -31,7 +33,7 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
     public function testOptionsPassedNotArrayOrTraversableWillThrowException()
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         $this->reCaptcha2->setOptions(new \stdClass());
     }
 
@@ -42,7 +44,7 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
     public function testShouldAllowSpecifyingServiceObject()
     {
-        $captchaService = new TestNoCaptchaService;
+        $captchaService = new TestNoCaptchaService();
 
         $this->reCaptcha2->setService($captchaService);
         $this->assertSame($captchaService, $this->reCaptcha2->getService());
@@ -71,13 +73,13 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
     public function testServiceClassDoesNotExistWillThrowException()
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->reCaptcha2->setService('RandomClassThatDoesNotExist');
     }
 
     public function testServiceClassDoesNotImpelemtInterfaceWillThrowException()
     {
-        $this->setExpectedException(Exception\DomainException::class);
+        $this->expectException(Exception\DomainException::class);
         $this->reCaptcha2->setService(new \stdClass());
     }
 
@@ -111,7 +113,7 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
     public function testIsValidReturnsFalseWhenServiceVerifyReturnsEmpty()
     {
-        $serviceMock = $this->getMock(NoCaptchaService::class, ['verify'], [], '', false);
+        $serviceMock = $this->createMock(NoCaptchaService::class, ['verify'], [], '', false);
         $serviceMock->expects($this->once())
             ->method('verify')
             ->willReturn(null);
@@ -127,7 +129,7 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
     public function testIsValidReturnsFalseWhenServiceIsValidReturnsFalse()
     {
-        $resultMock = $this->getMock(Result::class, ['isValid', 'getErrorCodes']);
+        $resultMock = $this->createMock(Result::class, ['isValid', 'getErrorCodes']);
         $resultMock->expects($this->once())
             ->method('isValid')
             ->willReturn(false);
@@ -135,7 +137,7 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
             ->method('getErrorCodes')
             ->willReturn(null);
 
-        $serviceMock = $this->getMock(NoCaptchaService::class, ['verify'], [], '', false);
+        $serviceMock = $this->createMock(NoCaptchaService::class, ['verify'], [], '', false);
         $serviceMock->expects($this->once())
             ->method('verify')
             ->willReturn($resultMock);
@@ -151,7 +153,7 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
     public function testIsValidReturnsFalseWhenServiceIsValidReturnsFalseWithResultMessage()
     {
-        $resultMock = $this->getMock(Result::class, ['isValid', 'getErrorCodes']);
+        $resultMock = $this->createMock(Result::class, ['isValid', 'getErrorCodes']);
         $resultMock->expects($this->once())
             ->method('isValid')
             ->willReturn(false);
@@ -159,7 +161,7 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
             ->method('getErrorCodes')
             ->willReturn(['test-error-code']);
 
-        $serviceMock = $this->getMock(NoCaptchaService::class, ['verify'], [], '', false);
+        $serviceMock = $this->createMock(NoCaptchaService::class, ['verify'], [], '', false);
         $serviceMock->expects($this->once())
             ->method('verify')
             ->willReturn($resultMock);
@@ -175,12 +177,12 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
     public function testIsValidReturnsTrueWhenServiceIsValidReturnsTrue()
     {
-        $resultMock = $this->getMock(Result::class, ['isValid']);
+        $resultMock = $this->createMock(Result::class, ['isValid']);
         $resultMock->expects($this->once())
             ->method('isValid')
             ->willReturn(true);
 
-        $serviceMock = $this->getMock(NoCaptchaService::class, ['verify'], [], '', false);
+        $serviceMock = $this->createMock(NoCaptchaService::class, ['verify'], [], '', false);
         $serviceMock->expects($this->once())
             ->method('verify')
             ->willReturn($resultMock);

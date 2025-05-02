@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "php": "^5.5 || ^7.0 || ^8.0",
+        "php": "^8.1",
         "laminas/laminas-captcha": "^2.5.0",
         "laminas/laminas-http": "^2.15.0",
         "laminas/laminas-form": "^3.4.0",
@@ -29,14 +29,15 @@
     },
     "require-dev": {
         "laminas/laminas-servicemanager": "^3.18.0",
-        "phpunit/phpunit": "^4.5",
-        "squizlabs/php_codesniffer": "^2.3.1"
+        "phpunit/phpunit": "^10.0",
+        "squizlabs/php_codesniffer": "^2.3.1",
+        "laminas/laminas-test": "^4.12"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload-dev": {
         "psr-4": {
-            "ZendTest\\ReCaptcha2\\": "test/"
+            "LaminasTest\\ReCaptcha2\\": "test/"
         }
     }
 }

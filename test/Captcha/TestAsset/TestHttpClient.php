@@ -1,7 +1,8 @@
 <?php
-namespace ZendTest\ReCaptcha2\Captcha\TestAsset;
 
-use Zend\Http\Client;
+namespace LaminasTest\ReCaptcha2\Captcha\TestAsset;
+
+use Laminas\Http\Client;
 
 class TestHttpClient extends Client
 {

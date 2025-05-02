@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<ruleset name="Zend Framework coding standard">
-    <description>Zend Framework coding standard</description>
+<ruleset name="CodeIT coding standard">
+    <description>CodeIT coding standard</description>
 
     <!-- display progress -->
     <arg value="p"/>
     <arg name="colors"/>
 
     <!-- inherit rules from: -->
-    <rule ref="PSR2"/>
+    <rule ref="PSR12"/>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
     <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
         <properties>

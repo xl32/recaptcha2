@@ -1,8 +1,9 @@
 <?php
+
 namespace ReCaptcha2\Captcha;
 
-use Zend\Captcha\AbstractAdapter;
-use Zend\Captcha\Exception;
+use Laminas\Captcha\AbstractAdapter;
+use Laminas\Captcha\Exception;
 
 class ReCaptcha2 extends AbstractAdapter
 {
@@ -56,7 +57,7 @@ class ReCaptcha2 extends AbstractAdapter
     public function getService()
     {
         if (null === $this->service) {
-            $this->service = new NoCaptchaService;
+            $this->service = new NoCaptchaService();
         }
         return $this->service;
     }
@@ -139,7 +140,7 @@ class ReCaptcha2 extends AbstractAdapter
     }
 
     /**
-     * @see \Zend\Validator\ValidatorInterface::isValid()
+     * @see \Laminas\Validator\ValidatorInterface::isValid()
      * @param mixed $value
      * @param mixed $context
      * @return boolean

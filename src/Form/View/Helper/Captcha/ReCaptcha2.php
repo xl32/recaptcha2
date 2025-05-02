@@ -1,12 +1,13 @@
 <?php
+
 namespace ReCaptcha2\Form\View\Helper\Captcha;
 
 use Traversable;
-use Zend\Captcha\AdapterInterface;
-use Zend\Form\Element\Captcha;
-use Zend\Form\ElementInterface;
-use Zend\Form\Exception;
-use Zend\Form\View\Helper\FormInput;
+use Laminas\Captcha\AdapterInterface;
+use Laminas\Form\Element\Captcha;
+use Laminas\Form\ElementInterface;
+use Laminas\Form\Exception;
+use Laminas\Form\View\Helper\FormInput;
 
 class ReCaptcha2 extends FormInput
 {
@@ -28,11 +29,11 @@ class ReCaptcha2 extends FormInput
      * @throws Exception\DomainException
      * @return string
      */
-    public function render(ElementInterface $element)
+    public function render(ElementInterface $element): string
     {
         if (!$element instanceof Captcha) {
             throw new Exception\InvalidArgumentException(sprintf(
-                '%s expects a valid implementation of Zend\Form\Element\Captcha; received "%s"',
+                '%s expects a valid implementation of Laminas\Form\Element\Captcha; received "%s"',
                 __METHOD__,
                 (is_object($element) ? get_class($element) : gettype($element))
             ));

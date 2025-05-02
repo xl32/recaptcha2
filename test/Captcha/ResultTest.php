@@ -1,10 +1,12 @@
 <?php
-namespace ZendTest\ReCaptcha2\Captcha;
 
+namespace LaminasTest\ReCaptcha2\Captcha;
+
+use PHPUnit\Framework\TestCase;
 use ReCaptcha2\Captcha\Result;
-use Zend\Http\Response;
+use Laminas\Http\Response;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+class ResultTest extends TestCase
 {
     public function testConstructorShouldSetHttpResponse()
     {
@@ -13,7 +15,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             'error-codes' => ['test'],
         ]);
 
-        $httpResponseMock = $this->getMock(Response::class, ['getBody']);
+        $httpResponseMock = $this->createMock(Response::class, ['getBody']);
         $httpResponseMock->expects($this->exactly(1))
             ->method('getBody')
             ->will($this->returnValue($json));
@@ -26,7 +28,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
     public function testSetStatusTrue()
     {
-        $result = new Result;
+        $result = new Result();
 
         $result->setStatus(true);
         $this->assertTrue($result->getStatus());
@@ -35,7 +37,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
     public function testSetStatusFalse()
     {
-        $result = new Result;
+        $result = new Result();
 
         $result->setStatus(false);
         $this->assertFalse($result->getStatus());
@@ -44,7 +46,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
     public function testSetErrorCodes()
     {
-        $result = new Result;
+        $result = new Result();
         $errorCodes = ['test', 'foo', 'bar'];
 
         $result->setErrorCodes($errorCodes);
@@ -53,10 +55,10 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
     public function testSetErrorCodesStringGetterReturnsArray()
     {
-        $result = new Result;
+        $result = new Result();
 
         $result->setErrorCodes('this is a string');
-        $this->assertInternalType('array', $result->getErrorCodes());
+        $this->assertIsArray($result->getErrorCodes());
         $this->assertEquals(['this is a string'], $result->getErrorCodes());
     }
 
@@ -80,7 +82,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             'error-codes' => $errorCodes,
         ]);
 
-        $httpResponseMock = $this->getMock(Response::class, ['getBody']);
+        $httpResponseMock = $this->createMock(Response::class, ['getBody']);
         $httpResponseMock->expects($this->exactly(1))
             ->method('getBody')
             ->will($this->returnValue($json));

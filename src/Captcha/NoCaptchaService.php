@@ -1,9 +1,10 @@
 <?php
+
 namespace ReCaptcha2\Captcha;
 
 use Traversable;
-use Zend\Captcha\Exception;
-use Zend\Http\Client as HttpClient;
+use Laminas\Captcha\Exception;
+use Laminas\Http\Client as HttpClient;
 
 class NoCaptchaService extends AbstractService
 {
@@ -53,7 +54,7 @@ class NoCaptchaService extends AbstractService
     public function getHttpClient()
     {
         if (null === $this->httpClient) {
-            $this->httpClient = new HttpClient;
+            $this->httpClient = new HttpClient();
         }
         return $this->httpClient;
     }
@@ -82,7 +83,7 @@ class NoCaptchaService extends AbstractService
 
         if (!$httpClient instanceof HttpClient) {
             throw new Exception\DomainException(sprintf(
-                '%s expects a valid implementation of Zend\Http\Client; received "%s"',
+                '%s expects a valid implementation of Laminas\Http\Client; received "%s"',
                 __METHOD__,
                 (is_object($httpClient) ? get_class($httpClient) : gettype($httpClient))
             ));
@@ -147,7 +148,7 @@ class NoCaptchaService extends AbstractService
 
     /**
      * @param string $responseField
-     * @return \Zend\Http\Response
+     * @return \Laminas\Http\Response
      */
     protected function post($responseField)
     {
@@ -166,10 +167,10 @@ class NoCaptchaService extends AbstractService
             $params['remoteip'] = $this->ip;
         }
 
-        $request = new \Zend\Http\Request;
+        $request = new \Laminas\Http\Request();
         $request->setUri(self::VERIFY_SERVER);
         $request->getPost()->fromArray($params);
-        $request->setMethod(\Zend\Http\Request::METHOD_POST);
+        $request->setMethod(\Laminas\Http\Request::METHOD_POST);
         $httpClient->setEncType(HttpClient::ENC_URLENCODED);
 
         return $httpClient->send($request);

@@ -1,19 +1,21 @@
 <?php
-namespace ZendTest\ReCaptcha2\View\Helper\Captcha;
+
+namespace LaminasTest\ReCaptcha2\View\Helper\Captcha;
 
 use ArrayObject;
+use PHPUnit\Framework\TestCase;
 use ReCaptcha2\Captcha\NoCaptchaService;
 use ReCaptcha2\Captcha\ReCaptcha2;
 use ReCaptcha2\Form\View\Helper\Captcha\ReCaptcha2 as ReCaptcha2ViewHelper;
-use Zend\Form\Element\Captcha;
-use Zend\Form\Element\Text;
-use Zend\Form\Exception;
+use Laminas\Form\Element\Captcha;
+use Laminas\Form\Element\Text;
+use Laminas\Form\Exception;
 
-class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
+class ReCaptcha2Test extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
-        $this->helper = new ReCaptcha2ViewHelper;
+        $this->helper = new ReCaptcha2ViewHelper();
         parent::setUp();
     }
 
@@ -25,21 +27,21 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
     public function testRenderWithAnotherFormElementWillThrowException()
     {
-        $this->setExpectedException(
+        $this->expectException(
             Exception\InvalidArgumentException::class,
-            'expects a valid implementation of Zend\Form\Element\Captcha; received'
+            'expects a valid implementation of Laminas\Form\Element\Captcha; received'
         );
-        $this->helper->render(new Text);
+        $this->helper->render(new Text());
     }
 
     public function testRenderWithoutCaptchaServiceWillThrowException()
     {
-        $captchaMock = $this->getMock(Captcha::class, ['getCaptcha']);
+        $captchaMock = $this->createMock(Captcha::class, ['getCaptcha']);
         $captchaMock->expects($this->once())
             ->method('getCaptcha')
             ->willReturn(null);
 
-        $this->setExpectedException(
+        $this->expectException(
             Exception\DomainException::class,
             'requires that the element has a "captcha" attribute implementing'
         );
@@ -48,12 +50,12 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
     public function testRenderWithoutSiteKeyServiceWillThrowException()
     {
-        $captchaMock = $this->getMock(Captcha::class, ['getCaptcha']);
+        $captchaMock = $this->createMock(Captcha::class, ['getCaptcha']);
         $captchaMock->expects($this->once())
             ->method('getCaptcha')
-            ->willReturn(new ReCaptcha2);
+            ->willReturn(new ReCaptcha2());
 
-        $this->setExpectedException(Exception\DomainException::class, 'Missing site key');
+        $this->expectException(Exception\DomainException::class, 'Missing site key');
         $this->helper->render($captchaMock);
     }
 
@@ -66,12 +68,12 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
             ],
         ]);
         $noCaptchaService = new NoCaptchaService($config);
-        $reCaptcha2Mock = $this->getMock(ReCaptcha2::class, ['getService']);
+        $reCaptcha2Mock = $this->createMock(ReCaptcha2::class, ['getService']);
         $reCaptcha2Mock->expects($this->once())
             ->method('getService')
             ->willReturn($noCaptchaService);
 
-        $captchaMock = $this->getMock(Captcha::class, ['getCaptcha', 'getAttributes', 'getName']);
+        $captchaMock = $this->createMock(Captcha::class, ['getCaptcha', 'getAttributes', 'getName']);
         $captchaMock->expects($this->once())
             ->method('getCaptcha')
             ->willReturn($reCaptcha2Mock);
@@ -84,9 +86,9 @@ class ReCaptcha2Test extends \PHPUnit_Framework_TestCase
 
         $helper = $this->helper;
         $result = $helper($captchaMock);
-        $this->assertContains('<input type="hidden" name="test-name"', $result);
-        $this->assertContains('<div data-theme="dark" class="g-recaptcha" data-sitekey="test-site-key"', $result);
-        $this->assertContains(sprintf(
+        $this->assertStringContainsString('<input type="hidden" name="test-name"', $result);
+        $this->assertStringContainsString('<div data-theme="dark" class="g-recaptcha" data-sitekey="test-site-key"', $result);
+        $this->assertStringContainsString(sprintf(
             '<iframe src="%s/fallback?render=test-param-render&amp;k=test-site-key"',
             NoCaptchaService::API_SERVER
         ), $result);

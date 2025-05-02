@@ -1,7 +1,7 @@
 <?php
 namespace ReCaptcha2;
 
-use Zend\ServiceManager\Factory\InvokableFactory;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
     'view_helpers' => [
@@ -11,7 +11,7 @@ return [
         ],
         'aliases' => [
             'captcharecaptcha2'     => Form\View\Helper\Captcha\ReCaptcha2::class,
-            // weird alias used by Zend\Captcha
+            // weird alias used by Laminas\Captcha
             'captcha/recaptcha2'    => Form\View\Helper\Captcha\ReCaptcha2::class,
             'captcha_recaptcha2'    => Form\View\Helper\Captcha\ReCaptcha2::class,
         ],

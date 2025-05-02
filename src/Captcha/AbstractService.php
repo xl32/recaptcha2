@@ -1,4 +1,5 @@
 <?php
+
 namespace ReCaptcha2\Captcha;
 
 abstract class AbstractService implements ServiceInterface

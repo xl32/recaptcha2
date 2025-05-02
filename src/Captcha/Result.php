@@ -1,7 +1,8 @@
 <?php
+
 namespace ReCaptcha2\Captcha;
 
-use Zend\Http\Response as HttpResponse;
+use Laminas\Http\Response as HttpResponse;
 
 class Result
 {
@@ -31,7 +32,7 @@ class Result
      */
     public function setStatus($status)
     {
-        $this->status = (boolean)$status;
+        $this->status = (bool)$status;
         return $this;
     }
 

@@ -1,18 +1,20 @@
 <?php
-namespace ZendTest\ReCaptcha2\Captcha;
 
+namespace LaminasTest\ReCaptcha2\Captcha;
+
+use PHPUnit\Framework\TestCase;
 use ReCaptcha2\Captcha\NoCaptchaService;
 use ReCaptcha2\Captcha\Result;
-use Zend\Captcha\Exception;
-use Zend\Http\Client;
-use Zend\Http\Client\Adapter\Curl;
-use ZendTest\ReCaptcha2\Captcha\TestAsset\TestHttpClient;
+use Laminas\Captcha\Exception;
+use Laminas\Http\Client;
+use Laminas\Http\Client\Adapter\Curl;
+use LaminasTest\ReCaptcha2\Captcha\TestAsset\TestHttpClient;
 
-class NoCaptchaServiceTest extends \PHPUnit_Framework_TestCase
+class NoCaptchaServiceTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
-        $this->captchaService = new NoCaptchaService;
+        $this->captchaService = new NoCaptchaService();
     }
 
     public function testConstructorShouldSetOptions()
@@ -37,7 +39,7 @@ class NoCaptchaServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testOptionsPassedNotArrayOrTraversableWillThrowException()
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->captchaService->setOptions(new \stdClass());
     }
 
@@ -48,7 +50,7 @@ class NoCaptchaServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldAllowSpecifyingHttpClientObject()
     {
-        $httpClient = new TestHttpClient;
+        $httpClient = new TestHttpClient();
 
         $this->captchaService->setHttpClient($httpClient);
         $this->assertSame($httpClient, $this->captchaService->getHttpClient());
@@ -76,13 +78,13 @@ class NoCaptchaServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testHttpClientClassDoesNotExistWillThrowException()
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
+        $this->expectException(Exception\InvalidArgumentException::class);
         $this->captchaService->setHttpClient('RandomClassThatDoesNotExist');
     }
 
     public function testHttpClientClassDoesNotImpelementInterfaceWillThrowException()
     {
-        $this->setExpectedException(Exception\DomainException::class);
+        $this->expectException(Exception\DomainException::class);
         $this->captchaService->setHttpClient(new \stdClass());
     }
 
@@ -93,16 +95,16 @@ class NoCaptchaServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testVerifyWithoutSecretKeyWillThrowException()
     {
-        $this->setExpectedException(Exception\DomainException::class);
+        $this->expectException(Exception\DomainException::class);
         $this->captchaService->verify('foo');
     }
 
     public function testVerify()
     {
-        $httpClientMock = $this->getMock(Client::class, ['send'], [], '', false);
+        $httpClientMock = $this->createMock(Client::class, ['send'], [], '', false);
         $httpClientMock->expects($this->once())
             ->method('send')
-            ->willReturn(new \Zend\Http\Response);
+            ->willReturn(new \Laminas\Http\Response());
 
         $this->captchaService->setIp('test');
         $this->captchaService->setSecretKey('secret-key');
